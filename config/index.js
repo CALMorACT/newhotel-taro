@@ -2,7 +2,7 @@
  * @Author: holakk
  * @Date: 2021-11-17 21:56:19
  * @LastEditors: holakk
- * @LastEditTime: 2021-11-27 22:04:05
+ * @LastEditTime: 2021-12-15 22:03:20
  * @Description: file content
  */
 import { resolve } from "path";
@@ -67,6 +67,17 @@ const config = {
         },
       },
     },
+    devServer: {
+      host: '0.0.0.0',
+      port: 10086,
+      proxy: {
+        //配置跨域
+        "/api": {
+          target: "http://127.0.0.1/", //这里后台的地址模拟的;应该填写你们真实的后台接口
+          changeOrigin: true,
+        },
+      },
+    },
   },
   alias: {
     "@/components": resolve(__dirname, "..", "src/components"),
@@ -75,6 +86,7 @@ const config = {
     "@/store": resolve(__dirname, "..", "src/store"),
     "@/pages": resolve(__dirname, "..", "src/pages"),
     "@/types": resolve(__dirname, "..", "src/types"),
+    "@/errors": resolve(__dirname, "..", "src/errors"),
   },
 };
 

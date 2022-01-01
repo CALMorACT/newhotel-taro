@@ -21,6 +21,7 @@
       "@/pages/*": ["./src/pages/*"],
       "@/types/*": ["./src/types/*"],
       "@/assets/*": ["./src/assets/*"],
+      "@/errors/*": ["./src/errors/*"],
       "@/package": ["./package.json"],
       "@/project": ["./project.config.json"]
     },

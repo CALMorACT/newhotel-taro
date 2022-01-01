@@ -2,29 +2,30 @@
  * @Author: holakk
  * @Date: 2021-11-26 11:08:27
  * @LastEditors: holakk
- * @LastEditTime: 2021-11-27 22:46:46
+ * @LastEditTime: 2021-12-16 21:34:31
  * @Description: file content
  */
-
-import { View, Text, ITouchEvent } from "@tarojs/components";
-import {
-  Search,
-  DropdownItem,
-  DropdownMenu,
-  Cell,
-  Slider,
-  Button,
-} from "@antmjs/vantui";
-import { useState } from "react";
+import { AtSearchBar } from "taro-ui";
+import { View, ITouchEvent } from "@tarojs/components";
+import { DropdownItem, DropdownMenu, Slider, Button } from "@antmjs/vantui";
+import HotelState, { hotelSortMethodEnum } from "@/store/HotelState";
 
 import yellow_drill from "@/assets/images/黄钻.png";
 import white_drill from "@/assets/images/白钻.png";
+import { useRecoilState } from "recoil";
+import { useState } from "react";
 
-export default function SearchBar(params: {
-  value: string | number | undefined;
+export default function MySearchBar(params: {
+  value: string;
   onSearchChange: (arg0: any) => void;
-  onSearch: () => void;
+  onSearch: (event: ITouchEvent) => void;
 }) {
+  // 设置排序方式，希望通过Recoil来监听排序方式以改动酒店列表
+  const [hotelSortMethod, setHotelSortMethod] = useRecoilState(
+    HotelState.hotelSortMethod
+  );
+  const [searchValue, setSearchValue] = useState(params.value);
+  // 下拉组件需要的option参数
   const sortMethod = [
     {
       text: "智能排序",
@@ -45,48 +46,89 @@ export default function SearchBar(params: {
   ];
   return (
     <View>
-      <Search
-        value={params.value}
-        shape='round'
-        background='#4fc08d'
+      <AtSearchBar
+        className='bg-blue-400'
+        value={searchValue}
         placeholder='位置/品牌/酒店名'
         onChange={(value) => {
-          params.onSearchChange(value.detail);
+          setSearchValue(value);
+          params.onSearchChange(value);
         }}
-        onSearch={params.onSearch}
+        onActionClick={params.onSearch}
       />
-      <DropdownMenu>
-        <DropdownItem options={sortMethod}></DropdownItem>
+      {/* <DropdownMenu>
+        <DropdownItem
+          title='排序方式'
+          value={hotelSortMethod}
+          options={sortMethod}
+          onChange={(value: hotelSortMethodEnum) => {
+            setHotelSortMethod(value);
+          }}
+        ></DropdownItem>
         <DropdownItem title='价格/星级' options={[]}>
-          <Text selectable={false} space='ensp'>
-            价 格
-          </Text>
-          <Slider value={[0, 10000]} range change={this.onChange} />
-          <Text selectable={false} space='ensp'>
-            星 级
-          </Text>
+          <View className='text-gray-400 text-sm mb-6 mt-4'>价 格</View>
+          <Slider
+            className='w-50 ml-6'
+            barHeight={16}
+            value={[0, 10000]}
+            range
+            onChange={() => {}}
+          />
+          <View className='text-gray-400 text-sm mt-4'>星 级</View>
           <View>
-            <Button plain type='primary'>
+            <Button
+              plain
+              type='primary'
+              size='small'
+              className='mx-auto w-28 ml-3'
+            >
               经济型
             </Button>
-            <Button plain type='primary'>
+            <Button
+              plain
+              type='primary'
+              size='small'
+              className='mx-auto w-28 ml-3'
+            >
               舒适/三星
             </Button>
-            <Button plain type='primary'>
+            <Button
+              plain
+              type='primary'
+              size='small'
+              className='mx-auto w-28 ml-3'
+            >
               高档/四星
             </Button>
-            <Button plain type='primary'>
+            <Button
+              plain
+              type='primary'
+              size='small'
+              className='mx-auto w-28 ml-3'
+            >
               豪华/五星
             </Button>
-            <Button plain type='primary' icon={yellow_drill}>
+            <Button
+              plain
+              type='primary'
+              size='small'
+              className='ml-2 mr-2'
+              icon={yellow_drill}
+            >
               黄金钻酒店
             </Button>
-            <Button plain type='primary' icon={white_drill}>
+            <Button
+              plain
+              type='primary'
+              size='small'
+              className='ml-2 mr-2'
+              icon={white_drill}
+            >
               铂金钻酒店
             </Button>
           </View>
         </DropdownItem>
-      </DropdownMenu>
+      </DropdownMenu> */}
     </View>
   );
 }

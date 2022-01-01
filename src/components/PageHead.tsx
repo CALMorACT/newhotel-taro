@@ -2,7 +2,7 @@
  * @Author: holakk
  * @Date: 2021-11-18 22:02:53
  * @LastEditors: holakk
- * @LastEditTime: 2021-11-19 21:15:32
+ * @LastEditTime: 2021-12-12 20:38:43
  * @Description: file content
  */
 import { View } from "@tarojs/components";
@@ -11,7 +11,7 @@ import { AtNavBar } from "taro-ui";
 
 import { setRoute } from "@/utils/routerUtil";
 
-import UserState from "@/store/userState";
+import UserState from "@/store/UserState";
 import LayerState from "@/store/LayerState";
 
 function PageHead() {
@@ -23,14 +23,14 @@ function PageHead() {
       <AtNavBar
         // 返回主页
         onClickLeftIcon={() => {
-          setRoute("index");
+          setRoute("/index/index");
         }}
         // 选择性跳转 用户登录/用户信息
         onClickRgIconNd={() => {
           if (isLogin) {
-            setRoute("user");
+            setRoute("/user/info");
           } else {
-            setRoute("login");
+            setRoute("/user/login");
           }
         }}
         // 展开功能列表
